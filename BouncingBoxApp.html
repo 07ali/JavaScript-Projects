@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<!--
+		Mohammed Jaffer Ali
+		Z1790168
+		OMIS 694
+		Bouncing Square
+-->
+<head>
+	<title>Bouncing Square</title>
+	<style>
+		body 
+		{
+			font-family: Arial;
+		}
+		#container 
+		{
+			position: relative;
+			width: 700px;
+			height: 500px;
+			border: solid black 2px;
+			background-color: red;
+		}
+		#square 
+		{
+			position: absolute;
+			width: 21px;
+			height: 21px;
+			border: solid white 2px;
+			background-color: black;
+			left: 300px;
+			top: 200px:
+		}
+	</style>
+</head>
+<body>
+	<center>
+		<div id="container">
+			<div id="square">
+			</div>
+		</div>
+		<br /><br />
+		<input type="button" id="stop" value="Stop" />
+		<input type="button" id="resume" value="Resume" />
+		<br /><br />
+		Speed:&nbsp;&nbsp;&nbsp; 
+		<input id="slow" type="radio" name="speed" value="slow">Slow
+		&nbsp;&nbsp;&nbsp;
+		<input id="medium" type="radio" name="speed" value="medium" 
+			   checked>Medium&nbsp;&nbsp;&nbsp;
+		<input id="fast" type="radio" name="speed" value="fast">Fast
+		&nbsp;&nbsp;&nbsp;
+	</center>
+	<script>
+		// Initialize variables
+		var timer = null;
+		var elem = null;
+		var right = 1; // Moves the square to the right
+		var left = -1; // Moves the square to the left
+		var bottom = 1; //Moves the square to the bottom
+		var topp = -1; // Moves the square to the top
+		var dir = bottom; // Initial direction is to the bottom-right
+		var dir1 = right;
+		var numPixels = 1;  // pixels per iteration
+		var speed = 12 // millisec between iterations (initially medium)
+		function bounceSquare() 
+		{
+			//var top = -1;
+			// Display the stop button, turn off the resume button
+			objResume.style.display = "none";
+			objStop.style.display = "block";
+			
+			// Reverse direction to top when square hits bottom of container
+			if(parseInt(elem.style.top) > (parseInt(cont.style.height) - parseInt(elem.style.height) - 4)) 
+			{
+				dir = topp;
+			}
+			
+			// Reverse direction to bottom when square hits top of container
+			if(parseInt(elem.style.top) == 0) 
+			{
+				dir = bottom;
+			}
+				
+			// Reverse direction to left when square hits right side of container
+			if(parseInt(elem.style.left) > (parseInt(cont.style.width) - parseInt(elem.style.width) - 4)) 
+			{
+				dir1 = left;
+			}
+			
+			// Reverse direction to right when square hits left side of container
+			if(parseInt(elem.style.left) == 0) 
+			{
+				dir1 = right;
+			}
+			
+			// Move the square by adjusting its left and top property
+			elem.style.top = parseInt(elem.style.top) + dir*numPixels + "px"
+			elem.style.left = parseInt(elem.style.left) + dir1*numPixels + "px"
+			
+			// setTimeout is used to recursively call the bounceSquare function
+			timer = setTimeout(bounceSquare, speed);	
+		}
+		function stopSquare() 
+		{
+			clearInterval(timer);
+			// Display the resume button, turn off the stop button
+			objResume.style.display = "block";
+			objStop.style.display = "none";
+		}
+		function adjustSpeed(pace) 
+		{
+			speed = pace;
+		}
+		window.onload = function() 
+		{
+			// Set up event handlers for the two buttons
+			objResume = document.getElementById("resume")
+			objResume.onclick = function() {bounceSquare();}
+			objStop = document.getElementById("stop")
+			objStop.onclick = function() {stopSquare();}
+			// Set up event handlers for the three radio buttons
+			// The lower the argument the faster the movement
+			objSlow = document.getElementById("slow")
+			objSlow.onclick = function() {adjustSpeed(36);}
+			objMedium = document.getElementById("medium")
+			objMedium.onclick = function() {adjustSpeed(12);}
+			objFast = document.getElementById("fast")
+			objFast.onclick = function() {adjustSpeed(4);}
+			// Get the container object and set its width
+			cont = document.getElementById("container");
+			cont.style.width = "700px";
+			cont.style.height = "500px";
+			
+			// Get the square object, set its left, top, height and width
+			elem = document.getElementById("square");
+			elem.style.left = "300px";
+			elem.style.top = "200px";
+			elem.style.width = "25px";
+			elem.style.height = "25px";
+			// Start the "bouncing" upon load
+			bounceSquare();
+		}
+	</script>
+</body>
+</html>

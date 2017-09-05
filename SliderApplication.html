@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<!--
+		Mohammed Jaffer Ali
+		Z1790168
+		OMIS 694
+		Slider
+-->
+
+<head>
+
+	<link href="css/jquery-ui.css" rel="stylesheet" />
+	<script src="js/jquery.js"></script>
+	<script src="js/jquery-ui.js"></script>
+
+	<style>
+	#myCanvas{
+	width:500px
+	height:500px;
+	
+	}
+	#slider-vertical{
+	position: absolute;	
+	height: 300px;
+	top: 100px;
+	left: 80px;
+	}
+	#slider{
+	position: absolute;	 
+	width: 300px;
+	top:420px;
+	left:110px;
+	}
+	</style>
+<script>
+
+   $( function () {
+
+	$( "#slider" ).slider({
+      value: 50,//setting the initial value of the slider to be 50;
+      min: 0,	//setting the range of the slider
+      max: 100,
+      slide: function( event, ui ) {
+        $( "#breadth" ).val( ui.value ); //setting the width of the container as breadth (since width is a in built variable)
+		$( '#container' ).css('width', ui.value*3);
+		$( "#perimeter" ).val(2*(ui.value + $( "#slider-vertical" ).slider( "value" ) ));
+		$( "#area" ).val(ui.value * $( "#slider-vertical" ).slider( "value" ) );		
+	}
+    });
+    $( "#breadth" ).val( $( "#slider" ).slider( "value" ) ); //setting the width of the container before any change occurs in the slider function
+	
+	$( "#slider-vertical" ).slider({ 
+      orientation: "vertical", //this will make the slider vertical
+      range: "min",
+      min: 0,  //setting the range of the slider
+      max: 100,
+      value: 50,  //setting the initial value of the slider to be 50;
+      slide: function( event, ui ) {
+        $( "#length" ).val( ui.value );//setting the length of the container as breadth (since height is a in built variable)
+		$( '#container' ).css('height', ui.value*3); 
+		$( '#container' ).css('top', ((100-ui.value)*3)+100);
+		$( "#perimeter" ).val(2*(ui.value + $( "#slider" ).slider( "value" ) ));
+		$( "#area" ).val(ui.value * $( "#slider" ).slider( "value" ) );
+		}
+    });
+    $( "#length" ).val( $( "#slider-vertical" ).slider( "value" ) ); //setting the height of the container before any change occurs in the slider function
+  } 
+  
+  );
+  
+</script>	
+</head>
+
+<body>
+
+<!--
+Setting a div for the sliders and the container` 
+-->
+<div style="border: 1px solid black;width: 500px;height: 500px;">
+	<div id="slider-vertical" ></div>
+	<div id="container" style="position:absolute; left: 110px; top:250px;width:150px;height:150px;background-color:steelblue;"></div>
+	<div id="slider"></div> 
+</div>
+
+<div style="width:500px; text-align: center;">
+</br>
+<!-- 
+setting a div for displaying the measurements
+-->
+<span>
+  <label for="breadth">Width:</label>
+  <input type="text" id="breadth" readonly style="width:30px; border:0; color:#f6931f; font-weight:bold;">
+</span>
+<span>
+  <label for="length">Heigth:</label>
+  <input type="text" id="length" readonly style="width:30px; border:0; color:#f6931f; font-weight:bold;">
+</span>
+
+<div>
+  <label for="perimeter">Perimeter:</label>
+  <input type="text" id="perimeter" value = "200" readonly style="width:60px;border:0; color:#f6931f; font-weight:bold;">
+</div>
+
+<div>
+  <label for="area">Area:</label>
+  <input type="text" id="area" value = "2500" readonly style="width:60px;border:0; color:#f6931f; font-weight:bold;">
+</div>
+
+</div>
+
+</body>
+</html>
